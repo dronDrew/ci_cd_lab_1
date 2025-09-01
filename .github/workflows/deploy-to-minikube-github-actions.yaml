@@ -23,8 +23,6 @@ jobs:
       run: minikube start --driver=docker
     - name: Deploy to Minikube
       run: kubectl apply -f ./k8s-node-app.yaml
-    - name: Expose Service
-      run: kubectl expose deployment nodejs-app --type=NodePort --port=8080
     - name: Check Service Status
       run: kubectl get services
     - name: Test service URLs
