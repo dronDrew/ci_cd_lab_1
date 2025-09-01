@@ -19,9 +19,14 @@ jobs:
           docker build -f ./Dockerfile -t devopshint/node-app:latest .
           echo -n "verifying images:"
           docker images         
-    - name: Deploy to minikube
-      run: |
-        kubectl apply -f ./k8s-node-app.yaml
+    - name: Start Minikube
+      run: minikube start --driver=docker
+    - name: Deploy to Minikube
+      run: kubectl apply -f k8s/deployment.yaml
+    - name: Expose Service
+      run: kubectl expose deployment my-app --type=NodePort --port=8080
+    - name: Check Service Status
+      run: kubectl get services
     - name: Test service URLs
       run: |
           minikube service list
